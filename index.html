@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Scraped Data</title>
+    <style>
+        /* Add your CSS styles here */
+        /* For example: */
+        .post {
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+        }
+        .title {
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .description {
+            margin-top: 10px;
+            color: #666;
+        }
+        .img {
+            max-width: 100%;
+            height: auto;
+            margin-top: 10px;
+        }
+        .date {
+            margin-top: 10px;
+            font-style: italic;
+            color: #999;
+        }
+    </style>
+</head>
+<body>
+<h1>Scraped Data</h1>
+<div id="data-container"></div>
+
+<script>
+    // Add your JavaScript code here
+    // Fetch the data from the server
+    fetch('http://localhost:3000/scrapedata')
+        .then(response => response.json())
+        .then(data => {
+            // Create HTML elements dynamically to display the data
+            const container = document.getElementById('data-container');
+            data.forEach(item => {
+                const postDiv = document.createElement('div');
+                postDiv.className = 'post';
+
+                const title = document.createElement('h2');
+                title.className = 'title';
+                title.textContent = item.title;
+
+                const description = document.createElement('p');
+                description.className = 'description';
+                description.textContent = item.description;
+
+                const img = document.createElement('img');
+                img.className = 'img';
+                img.src = item.imgUrl;
+
+                const date = document.createElement('p');
+                date.className = 'date';
+                date.textContent = item.postDate;
+
+                postDiv.appendChild(title);
+                postDiv.appendChild(description);
+                postDiv.appendChild(img);
+                postDiv.appendChild(date);
+
+                container.appendChild(postDiv);
+            });
+        })
+        .catch(error => {
+            console.error(error);
+            // Handle the error if fetching fails
+        });
+</script>
+</body>
+</html>
